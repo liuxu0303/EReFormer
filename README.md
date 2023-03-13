@@ -32,6 +32,6 @@ https://rpg.ifi.uzh.ch/E2DEPTH.html
 ### (3) Start training
 
 ```bash
-cd EReFormer-master
+cd EReFormer-main
 python train.py --config configs/EReFormer_dense_epoch200_000032.json
 ```
