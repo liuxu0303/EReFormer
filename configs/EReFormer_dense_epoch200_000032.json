@@ -1,0 +1,83 @@
+{
+    "name": "EReFormer_dense_epoch200_000032",
+    "cuda": true,
+    "gpu": 0,
+    "data_loader": {
+        "train": {
+            "type": "HDF5DataLoader",
+            "base_folder": "./data/train_file.csv",
+            "step_size": 16,
+            "clip_distance": 80.0
+        },
+        "validation": {
+            "type": "HDF5DataLoader",
+            "base_folder": "./data/valid_file.csv",
+            "step_size": 16,
+            "clip_distance": 80.0
+        },
+        "batch_size": 2,
+        "num_workers": 32,
+        "pin_memory": false,
+        "normalize": true,
+        "shuffle": true
+    },
+    "lr_scheduler_type": "OneCycleLR",
+    "lr_scheduler_freq": 10,
+    "lr_scheduler": {
+        "max_lr": 0.000032,
+        "epochs": 200,
+        "steps_per_epoch": 156,
+        "cycle_momentum": true,
+        "base_momentum": 0.85,
+        "max_momentum": 0.95,
+        "last_epoch": -1,
+        "div_factor": 25,
+        "final_div_factor": 100
+    },
+    "optimizer_type": "AdamW",
+    "optimizer": {
+        "lr": 0.000032,
+        "weight_decay": 0.1,
+        "amsgrad": true
+        
+    },
+    "loss": {
+        "type": "scale_invariant_loss",
+        "config": {"weight": 10.0, "n_lambda" : 0.85},
+        "weight": 1
+    },
+    "grad_loss": {
+        "weight": 0.25
+    },
+    
+    "trainer": {
+        "epochs": 200,
+        "sequence_length": 16,
+        "save_dir": "e2depth_checkpoints/",
+        "save_freq": 4,
+        "verbosity": 2,
+        "monitor": "val_loss",
+        "monitor_mode": "min",
+        "num_previews": 2,
+        "num_val_previews": 2,
+        "still_previews": true,
+        "grid_loss": true,
+        "loss_composition": ["image_last", "events_last"],
+        "loss_weights": [1, 1]
+    },
+    "arch": "E2DepthTransformerRecurrent",
+    "use_phased_arch": false,
+    "model": {
+        "window_size": 7,
+        "pretrained": "../full-tfer/model/swin_small_patch4_window7_224.pth",
+        "embed_dim": 96,
+        "img_size": [256, 336],
+        "num_decoders": 4,
+        "patch_size": 4,
+        "in_chans": 3,
+        "depth": [2, 2, 18, 2],
+        "num_heads": [3, 6, 12, 24],
+        "upsampling_method": "bilinear",
+        "align_corners": true
+    }
+}
