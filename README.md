@@ -31,6 +31,8 @@ https://rpg.ifi.uzh.ch/E2DEPTH.html
   
 ### (3) Start training
 
+The current model only supports fp32 and does not support low precision (e.g., fp16) acceleration
+
 ```bash
 cd EReFormer-main
 python train.py --config configs/EReFormer_dense_epoch200_000032.json
